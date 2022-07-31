@@ -2,6 +2,7 @@
 /* eslint-disable prettier/prettier */
 import { HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
 import { createMovieDto } from './dto/create-course.dto';
 import { Movies } from './entity/movie.entity';
@@ -11,8 +12,9 @@ import { MovieInterface } from './interfaces/movie.interface';
 export class MoviesService {
   constructor(
     @Inject('MOVIES_REPOSITORY')
-    private photoRepository: Repository<Movies>,
+    private moviesRepository: Repository<Movies>,
     private readonly httpService: HttpService,
+    
   ) {}
   async getMovies() {
     let moviesData: MovieInterface[] = [];
@@ -40,21 +42,24 @@ export class MoviesService {
     }))
     return newData
   }
-  
-  async findAll(): Promise<Movies[]> {
-    return await this.photoRepository.find();
+  async paginate(options: IPaginationOptions): Promise<Pagination<Movies>> {
+    return paginate<Movies>(this.moviesRepository, options);
   }
+  // async findAll(options: IPaginationOptions): Promise<Pagination<Movies>> {
+  //   const users = await this.moviesRepository.find();
+  //   return paginate(users, options)
+  // }     
   async findOne(id: string): Promise<Movies[]> {
-    return await this.photoRepository.findBy({ id });
+    return await this.moviesRepository.findBy({ id });
   }
   async create(createMovieDto: createMovieDto): Promise<Movies> {
-    return await this.photoRepository.save(createMovieDto);
+    return await this.moviesRepository.save(createMovieDto);
   }
   async delete(id: string): Promise<void> {
     const movie = await this.findOne(id);
     if (!movie) {
       throw new HttpException(`Movie ${id} not found`, HttpStatus.NOT_FOUND);
     }
-    await this.photoRepository.remove(movie);
+    await this.moviesRepository.remove(movie);
   }
 }
