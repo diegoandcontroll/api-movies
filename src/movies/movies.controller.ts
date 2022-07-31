@@ -18,6 +18,10 @@ export class MoviesController {
   findAll() {
     return this.moviesService.findAll();
   }
+  @Get('/data')
+  getMovies() {
+    return this.moviesService.getMovies();
+  }
   @Post()
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createMovieDto: createMovieDto) {
@@ -26,5 +30,9 @@ export class MoviesController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.moviesService.findOne(id);
+  }
+  @Delete(':id')
+  deleteMovie(@Param('id') id: string) {
+    return this.moviesService.delete(id);
   }
 }
