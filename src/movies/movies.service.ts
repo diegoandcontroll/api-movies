@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable prettier/prettier */
 import { HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
@@ -15,7 +16,8 @@ export class MoviesService {
   ) {}
   async getMovies() {
     let moviesData: MovieInterface[] = [];
-    const moviesUrl = []
+    let moviesUrl: string[] = []
+    let newData:MovieInterface[] = []
     const url = 'https://ghibliapi.herokuapp.com/films?limit=10';
     const { data, status } = await this.httpService.get<MovieInterface[]>(url).toPromise();
     if (status === 200) {
@@ -24,12 +26,21 @@ export class MoviesService {
     moviesData.map(movie => {
       moviesUrl.push(movie.url)
     })
-    return moviesUrl
+    for(let i= 0; i < moviesUrl.length; i++){
+      const {data, status} = await this.httpService.get(moviesUrl[i]).toPromise()
+      newData.push(data)
+      
+    }
+    newData.map(data => this.create({
+      banner: data.movie_banner,
+      description: data.description,
+      director: data.director,
+      producer: data.producer,
+      title: data.title,
+    }))
+    return newData
   }
-  async getNewUrl(url: string): Promise<any> {
-    const { data, status } = await this.httpService.get(url).toPromise();
-    return data;
-  }
+  
   async findAll(): Promise<Movies[]> {
     return await this.photoRepository.find();
   }
