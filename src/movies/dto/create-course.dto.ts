@@ -1,5 +1,5 @@
 export class createMovieDto {
-  readonly id: string;
+  readonly id?: string;
 
   readonly title: string;
 

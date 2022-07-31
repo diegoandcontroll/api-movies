@@ -4,7 +4,7 @@ import { Entity, Column, PrimaryColumn, Generated } from 'typeorm';
 @Entity()
 export class Movies {
   @PrimaryColumn({ type: 'uuid' })
-  @Generated("uuid") id: string;
+  @Generated("uuid") id?: string;
 
   @Column()
   title: string;
