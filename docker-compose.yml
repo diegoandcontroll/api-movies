@@ -1,12 +1,18 @@
-version: '3'
+version: '2.0'
 services:
-  db:
-    image: 'postgres:latest'
+  api:
+    container_name: nest_api
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/home/api
+  database:
+    container_name: nest_db
+    image: 'postgres:13'
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: api
-    volumes:
-      - ./pgdata:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - 5432:5432
