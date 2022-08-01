@@ -20,7 +20,7 @@ export class MoviesService {
     let moviesData: MovieInterface[] = [];
     let moviesUrl: string[] = []
     let newData:MovieInterface[] = []
-    const url = 'https://ghibliapi.herokuapp.com/films?limit=10';
+    const url = 'https://ghibliapi.herokuapp.com/films?limit=8';
     const { data, status } = await this.httpService.get<MovieInterface[]>(url).toPromise();
     if (status === 200) {
       moviesData = data;
@@ -40,7 +40,7 @@ export class MoviesService {
       producer: data.producer,
       title: data.title,
     }))
-    return newData
+    return newData;
   }
   async paginate(options: IPaginationOptions): Promise<Pagination<Movies>> {
     return paginate<Movies>(this.moviesRepository, options);
