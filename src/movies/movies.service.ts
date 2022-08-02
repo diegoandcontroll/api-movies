@@ -44,10 +44,7 @@ export class MoviesService {
   async paginate(options: IPaginationOptions): Promise<Pagination<Movies>> {
     return paginate<Movies>(this.moviesRepository, options);
   }
-  // async findAll(options: IPaginationOptions): Promise<Pagination<Movies>> {
-  //   const users = await this.moviesRepository.find();
-  //   return paginate(users, options)
-  // }     
+      
   async findOne(id: string): Promise<Movies[]> {
     return await this.moviesRepository.findBy({ id });
   }
