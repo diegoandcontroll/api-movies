@@ -13,14 +13,13 @@ export class MoviesService {
   constructor(
     @Inject('MOVIES_REPOSITORY')
     private moviesRepository: Repository<Movies>,
-    private readonly httpService: HttpService,
-    
+    private readonly httpService: HttpService,  
   ) {}
   async getMovies() {
     let moviesData: MovieInterface[] = [];
     let moviesUrl: string[] = []
     let newData:MovieInterface[] = []
-    const url = 'https://ghibliapi.herokuapp.com/films?limit=8';
+    const url = 'https://ghibliapi.herokuapp.com/films';
     const { data, status } = await this.httpService.get<MovieInterface[]>(url).toPromise();
     if (status === 200) {
       moviesData = data;
@@ -29,7 +28,7 @@ export class MoviesService {
       moviesUrl.push(movie.url)
     })
     for(let i= 0; i < moviesUrl.length; i++){
-      const {data, status} = await this.httpService.get(moviesUrl[i]).toPromise()
+      const {data} = await this.httpService.get(moviesUrl[i]).toPromise()
       newData.push(data)
       
     }
