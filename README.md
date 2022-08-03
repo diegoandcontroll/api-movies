@@ -37,8 +37,11 @@ $ npm install or yarn
 ```bash
 $ docker-compose up --build
 ```
+## Server Running 
+  [AppRunning](http://locahost:5000) on http://locahost:5000
+
 ## Documentaion
-  [Documentaion](http://locahost:5000)
+  [Documentaion](https://documenter.getpostman.com/view/15021592/Uze1uiic)
 
 
 
