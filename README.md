@@ -35,6 +35,7 @@ $ npm install or yarn
 ## Running the app
 
 ```bash
+Create .env file in project root
 $ docker-compose up --build
 ```
 ## Server Running 
